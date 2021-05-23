@@ -206,5 +206,15 @@ fun colorPicker(){
         ){
 
         }
+        ListItem(
+            modifier = Modifier.clickable {
+                scope.launch {
+                    background.animateTo(Color.White)
+                }
+            }
+                .background(Color.White)
+        ){
+
+        }
     }
 }
