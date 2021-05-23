@@ -6,5 +6,5 @@ pluginManagement {
     }
     
 }
-rootProject.name = "ChatClient"
+rootProject.name = "flying"
 
