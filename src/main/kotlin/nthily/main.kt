@@ -39,6 +39,7 @@ import androidx.compose.ui.window.MenuItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.observeOn
 import kotlinx.coroutines.launch
+import nthily.ui.chatWindow
 import nthily.ui.setting
 import nthily.utils.menu
 import nthily.utils.text
@@ -72,7 +73,19 @@ fun main() = Window(
                     targetState = viewModel.category
                 ){
                     when(it){
-                        0 -> chatWindow()
+                        0 -> {
+                            Column {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .windowDraggable(),
+                                    contentAlignment = Alignment.TopEnd
+                                ){
+                                    windowAction()
+                                }
+                                chatWindow()
+                            }
+                        }
                         1 -> {
                             Image(imageResource("wall.jpg"), null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
                         }
@@ -81,109 +94,5 @@ fun main() = Window(
                 }
             }
         }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .windowDraggable(),
-            contentAlignment = Alignment.TopEnd
-        ){
-            windowAction()
-        }
     }
 }
-
-
-@Composable
-fun chatWindow(){
-    var text by remember { mutableStateOf("") }
-
-    val myMessage = viewModel.myMessageList.collectAsState().value
-    val listState = rememberLazyListState()
-    val scope = rememberCoroutineScope()
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize(),
-    ){
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-        ){
-            LazyColumn(
-                modifier = Modifier
-                    .padding(top = 100.dp, end = 25.dp, start = 25.dp)
-                    .weight(1f),
-                state = listState
-            ){
-                items(myMessage.size){ index ->
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .height(40.dp)
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End
-                    ){
-                        Surface(
-                            color = Color(0xFF1E6EFF),
-                            shape = RoundedCornerShape(5.dp)
-                        ){
-                            Text(myMessage[index],modifier = Modifier.padding(10.dp), color = Color.White, maxLines = 500)
-                        }
-                        Spacer(Modifier.padding(horizontal = 8.dp))
-                        Surface(
-                            shape = CircleShape
-                        ){
-                            Image(imageResource("ava.jpg"), null)
-                        }
-                    }
-                    Spacer(Modifier.padding(vertical = 10.dp))
-                }
-            }
-            Row(
-
-                verticalAlignment = Alignment.Bottom
-            ){
-                OutlinedTextField(
-                    value = text,
-                    onValueChange = {
-                        text = it
-                    },
-                    modifier = Modifier
-                        .padding(25.dp)
-                        .fillMaxWidth()
-                        .height(100.dp),
-                    textStyle = TextStyle(
-                        fontWeight = FontWeight.W700,
-                        fontSize = 20.sp,
-
-                        fontFamily = FontFamily(
-                            Font(
-                                resource = "fonts/PingFang Bold.ttf",
-                                style = FontStyle.Normal
-                            )
-                        )
-                    ),
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        cursorColor = Color(0xFF0079D3),
-                        focusedBorderColor = Color(0xFF0079D3)
-                    ),
-                    trailingIcon = {
-                        IconButton(onClick = {
-                            myMessage.add(text.replace("\\n", "\n"))
-                            text = ""
-                            scope.launch(Dispatchers.IO){
-                                listState.animateScrollToItem(myMessage.size)
-                            }
-                        }){
-                            Icon(Icons.Filled.Send, null, tint = Color(0xFF0079D3))
-                        }
-                    },
-                    placeholder = {
-                        text("说说你的心里话")
-                    }
-                )
-            }
-        }
-    }
-}
-

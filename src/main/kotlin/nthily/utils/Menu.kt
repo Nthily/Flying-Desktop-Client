@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,16 +32,25 @@ fun menu(){
             .width(300.dp)
             .background(Color(0xFF242426))
     ){
-        text(
-            text = "Flying",
-            style = MaterialTheme.typography.caption,
-            color = Color.Gray,
-            fontFamily = FontFamily(
-                Font("fonts/msyhbd.ttf")
-            ),
-            modifier = Modifier.padding(15.dp),
-            fontWeight = FontWeight.W100
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            text(
+                text = "Flying",
+                style = MaterialTheme.typography.caption,
+                color = Color.Gray,
+                fontFamily = FontFamily(
+                    Font("fonts/msyhbd.ttf")
+                ),
+                modifier = Modifier.padding(15.dp).weight(1f),
+                fontWeight = FontWeight.W100
+            )
+            IconButton(onClick = {
+
+            }){
+                Icon(Icons.Filled.Menu, null, tint = Color.Gray)
+            }
+        }
         ListItem(
             modifier = Modifier.clickable {
                 viewModel.category = 2
@@ -51,7 +61,7 @@ fun menu(){
             ){
                 Surface(
                     shape = CircleShape,
-                    modifier = Modifier.size(25.dp)
+                    modifier = Modifier.size(40.dp)
                 ){
                     Image(imageResource("ava.jpg"), null)
                 }
@@ -82,7 +92,7 @@ fun menu(){
                 }
             }
         }
-
+        Spacer(Modifier.padding(vertical = 10.dp))
         ListItem(
             modifier = Modifier.clickable {
                 viewModel.category = 0
