@@ -32,7 +32,7 @@ fun menu(){
             .background(Color(0xFF242426))
     ){
         text(
-            text = "Microsoft To Do",
+            text = "Flying",
             style = MaterialTheme.typography.caption,
             color = Color.Gray,
             fontFamily = FontFamily(
