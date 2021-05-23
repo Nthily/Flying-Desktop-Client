@@ -1,6 +1,7 @@
 package nthily.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -33,12 +34,15 @@ fun chatWindow(){
     var text by remember { mutableStateOf("") }
 
     val myMessage = viewModel.myMessageList.collectAsState().value
+    val background = viewModel.themeBackground.collectAsState().value.value
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
 
+
     Box(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(background),
     ){
         Column(
             modifier = Modifier

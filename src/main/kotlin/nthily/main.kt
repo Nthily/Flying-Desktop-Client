@@ -57,6 +57,8 @@ fun main() = Window(
     undecorated = true
 ){
 
+    val background = viewModel.themeBackground.collectAsState().value.value
+
     MaterialTheme {
 
         Box(
@@ -78,7 +80,8 @@ fun main() = Window(
                                 Box(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .windowDraggable(),
+                                        .windowDraggable()
+                                        .background(background),
                                     contentAlignment = Alignment.TopEnd
                                 ){
                                     windowAction()
